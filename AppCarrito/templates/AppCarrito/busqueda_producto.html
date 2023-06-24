@@ -1,0 +1,9 @@
+{% extends 'AppCarrito/base.html' %}
+
+{% load static %}
+{% for producto in productos %}
+    <h3>{{ producto.nombre }}</h3>
+    <p>{{ producto.descripcion }}</p>
+    <p>Precio: ${{ producto.precio }}</p>
+    <!-- Otros campos del producto -->
+{% endfor %}

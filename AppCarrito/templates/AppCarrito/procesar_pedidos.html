@@ -1,0 +1,29 @@
+{% extends 'AppCarrito/base.html' %}
+
+{% load static %}
+
+{% block contenido %}
+  <h1>Procesar pedido</h1>
+  <form method="post" action="{% url 'procesar_pedido' %}">
+    {% csrf_token %}
+    <div>
+      <label for="nombre">Nombre:</label>
+      <input type="text" name="nombre" id="nombre" required>
+    </div>
+    <div>
+      <label for="direccion">Dirección:</label>
+      <input type="text" name="direccion" id="direccion" required>
+    </div>
+    <div>
+      <label for="telefono">Teléfono:</label>
+      <input type="text" name="telefono" id="telefono" required>
+    </div>
+    <div>
+      <button type="submit">Enviar pedido</button>
+    </div>
+  </form>
+{% endblock %}
+
+<!-- Se está extendiendo un template base llamado 'base.html' que contiene la estructura general de la página.
+# Luego, dentro del bloque de contenido, se muestra el título 'Procesar pedido' y un formulario que permite al usuario ingresar su información personal y enviar el pedido.
+# El formulario utiliza el método POST y envía los datos a la misma vista 'procesar_pedido' cuando se presiona el botón de envío.

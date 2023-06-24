@@ -1,0 +1,56 @@
+{% extends 'AppCarrito/base.html' %}
+
+{% load static %}
+
+{% block contenido %}
+  <h1>Carrito de compras</h1>
+  {% if productos %}
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Precio unitario</th>
+          <th>Cantidad</th>
+          <th>Precio total</th>
+          <th>Eliminar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for id, producto in productos.items %}
+          <tr>
+            <td>{{ producto.nombre }}</td>
+            <td>${{ producto.precio }}</td>
+            <td>
+              <form method="post" action="{% url 'actualizar_cantidad_producto' id %}">
+                {% csrf_token %}
+                <input type="number" name="cantidad" min="1" value="{{ producto.cantidad }}">
+                <input type="submit" value="Actualizar">
+              </form>
+            </td>
+            <td>${{ producto.precio|floatformat:2 }}</td>
+            <td>
+              <form method="post" action="{% url 'eliminar_producto_carrito' id %}">
+                {% csrf_token %}
+                <input type="submit" value="Eliminar">
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="3">Total:</td>
+          <td>${{ total }}</td>
+          <td></td>
+        </tr>
+      </tfoot>
+    </table>
+    <a href="{% url 'procesar_pedido' %}">Procesar pedido</a> <!-- Añade un enlace para procesar el pedido -->
+  {% else %}
+    <p>No hay productos en el carrito.</p> <!-- Muestra un mensaje si no hay productos en el carrito -->
+  {% endif %}
+{% endblock %}
+
+
+<!-- En la función de vista 'mostrar_carrito', obtén los productos añadidos al carrito por el usuario a través de la sesión y
+calcula el precio total del carrito. Luego, muestra la plantilla HTML con los productos del carrito y el precio total
